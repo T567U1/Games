@@ -1,2 +1,2 @@
 # Games
-Games on multiple programs and frameworks
+Games on multiple languages and frameworks

@@ -1,4 +1,4 @@
-import pygame, random
+import pygame, random, math
 
 class Food():
     def __init__(self, display):
@@ -7,15 +7,18 @@ class Food():
         self.y1 = self.y / 2
         self.color = pygame.Color(255, 0, 0) #red
         self.exist = True
-        self.location = self.food_pos()
+        self.location = self.get_food_location()
 
     def get_food_status(self, head):
         return self.food.colliderect(head)
 
-    def food_pos(self):
+    def food_eaten(self):
+        self.exist = True
+
+    def get_food_location(self):
         if self.exist:
-            self.x1 = random.randint(0, self.x - self.y)
-            self.y1 = random.randint(0, self.x - self.y)
+            self.x1 = int(math.ceil(random.randint(0, self.x - self.y) / 10.0)) * 10
+            self.y1 = int(math.ceil(random.randint(0, self.x - self.y) / 10.0)) * 10
             self.exist = False
             self.location = [self.x1, self.y1, 10, 10]
             return self.location

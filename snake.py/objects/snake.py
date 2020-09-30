@@ -1,51 +1,36 @@
 import pygame
 
 class Snake:
-    def __init__(self, color, display):
-        self.x, self.y = display
-        self.color = color
-        self.body = [200,150,10,10]
-        self.prev = [-10, 0]
-        self.direction = [10, 0]
+    def __init__(self, display, body = [200,150,10,10], next = None):
+        self.limit_x, self.limit_y = display
+        self.body = [body]
 
     def get_snake(self):
         return self.body
 
-    def get_color(self):
-        return self.color
+    def get_snake_head(self):
+        return self.body[0]
 
-    def set_body(self, arr):
-        self.body = [arr[0] + self.body[0], arr[1] + self.body[1], 10, 10]
-        #check for boarders
-        if self.body[0] > self.x:
-            self.body[0] = 0
-        if self.body[0] < 0:
-            self.body[0] = self.x
+    def move(self, x, y):
+        new_head = self.get_snake_head()[:]
+        new_head[0] += x
+        new_head[1] += y
 
-        if self.body[1] > self.y:
-            self.body[1] = 0
-        if self.body[1] < 0:
-            self.body[1] = self.y
+        if new_head[0] > self.limit_x:
+            new_head[0] = 0
+        if new_head[0] < 0:
+            new_head[0] = self.limit_x
 
-    def controls(self, key = 0):
-        controls_ = {
-            119: [0, -10], #Up
-            115: [0, 10], #Down
-            97: [-10, 0], #left
-            100: [10, 0] #Right
-        }
-        prev = {
-            119: [0, 10], #Up
-            115: [0, -10], #Down
-            97: [10, 0], #left
-            100: [-10, 0] #Right
-        }
-        if key not in controls_:
-            self.set_body(self.direction)
-        else:
-            #if given command is to comeback or same direction
-            if self.prev == controls_[key] or self.direction == controls_[key]:
-                return
-            self.prev = prev[key]
-            self.direction = controls_[key]
-            self.set_body(controls_[key])
+        if new_head[1] > self.limit_y:
+            new_head[1] = 0
+        if new_head[1] < 0:
+            new_head[1] = self.limit_y
+
+        self.body.insert(0, new_head)
+        self.body.pop()
+
+    def add_part(self, x, y):
+        new_head = self.get_snake_head()[:]
+        new_head[0] += x
+        new_head[1] += y
+        self.body.insert(0, new_head)

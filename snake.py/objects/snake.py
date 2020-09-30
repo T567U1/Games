@@ -1,15 +1,19 @@
 import pygame
 
+snake = [[200,150,10,10], [190,150,10,10], [180,150,10,10], [170,150,10,10]]
 class Snake:
-    def __init__(self, display, body = [200,150,10,10], next = None):
+    def __init__(self, display, body = snake, next = None):
         self.limit_x, self.limit_y = display
-        self.body = [body]
+        self.body = body
 
     def get_snake(self):
         return self.body
 
     def get_snake_head(self):
         return self.body[0]
+
+    def get_body(self):
+        return self.body
 
     def move(self, x, y):
         new_head = self.get_snake_head()[:]
